@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMC 2.0</title>
+
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+    
+        * {
+            font-family: arial;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 70%;
+            border-radius: 15px;
+            background-color: #E5DBD9;
+            margin: 10% auto;
+            text-align: center;
+            color: #218B82;
+            padding: 75px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            font-size: 3em;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 60px;
+            border-bottom: 2px solid #218B82; 
+        }
+
+        p {
+            text-align: left;
+        }
+
+
+
+        .form *{
+            display: block;
+            margin: 20px 30px;
+        }
+
+        .form>input {
+            height: 35px;
+            width: 40%;
+            border: 2px solid #218B82; 
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .form>button {
+            padding: 10px 20px; 
+            color: #218B82;
+            background: #E5DBD9;
+            border: 1.5px solid #218B82;
+            text-transform: uppercase;
+            border-radius: 10px;
+        }
+
+        .form>button:hover {
+            color: #E5DBD9;
+            background: #218B82;
+            cursor: pointer;
+        }
+
+
+        .resultat {
+            width:80%;
+            margin: 100px auto;
+            border-top: 2px solid #218B82;
+            padding: 50px 0;
+
+            display: none;
+
+        }
+
+        .resultat>p {
+            text-align: center;
+            font-size: 2em;
+            font-family: 'Poppins';
+        }
+
+        .resultat>.imc {
+            font-size: 3.5em;
+        }
+
+        .range {
+            width: 80%;
+            background: linear-gradient(270deg, #EB96AA, #98D4BB, #218B82);
+            border: 2px solid #218b82;
+            height: 40px;
+            border-radius: 100px;
+            margin: 30px auto;
+            align-items: center;
+            box-sizing: content-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .range>.pointer {
+            height: 40px;
+            width: 40px;
+            background-color: rgb(238, 238, 238);
+            border-radius: 100%;
+            border: 3px solid #218b82;
+            position: absolute;
+            left: 0%;
+        }
+
+        .text {
+            margin: 30px 0;
+        }
+
+        .text>p:nth-child(1) {
+            margin-top: 100px;
+            font-family: 'Poppins';
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calcul d'IMC</h1>
+
+        <p>Indiquer votre taille en cm ainsi que votre podis en kg</p>
+
+        <div class="form">
+
+            <input type="text" placeholder="Votre taille en cm">
+            <input type="text" placeholder="Votre poids en kg">
+
+            <button>Calculer</button>
+
+            <p class="indication"></p>
+
+        </div>
+
+        <div class="resultat">
+            <p>Votre IMC est de </p>
+            <p class="imc">20</p>
+
+            <div class="range">
+                <div class="pointer"></div>
+            </div>
+
+            <div class="text">
+                <p>Résulats</p>
+                <p class="advice">Vous avez un IMC normal, ne changez rien à votre alimentation, c'est parfait ! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae vero perspiciatis enim? Voluptatum ducimus nemo quisquam officiis consectetur id omnis architecto, neque, corrupti commodi, repellat doloribus nam voluptates temporibus praesentium?</p>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        document.querySelector('.form>button').addEventListener('click', function() {
+            document.querySelectorAll('.form>input').forEach(input => {
+                if(!input.value.length == 0) {
+                    document.querySelector('.resultat').style.display = 'block';
+
+                    let imc = 0;
+
+                    let taille = parseFloat(document.querySelector('.form>input:nth-child(1)').value);
+                    let poids = parseFloat(document.querySelector('.form>input:nth-child(2)').value);
+
+                    imc = parseInt(poids / ((taille/100)*(taille/100)));
+
+                    document.querySelector('.imc').innerText = imc;
+
+
+                    if(imc < 15 ) {
+                        document.querySelector('.range>.pointer').style.left = '0%';
+                        document.querySelector('.advice').innerText = 'Vous êtes en état de maigreur extrême.'
+                    }
+
+                    else if(imc >= 15 && imc < 18.5 ) {
+                        let pointer_position = ((imc * 10) / 16) + 40;
+                        document.querySelector('.range>.pointer').style.left = 'calc('+pointer_position+'% - 41px)';
+                        document.querySelector('.advice').innerText = 'Vous êtes en état de maigreur.'
+                    }
+
+
+                    else if(imc >= 18.5 && imc < 25 )  {
+                        let pointer_position = ((imc * 10) / 22) + 48;
+                        document.querySelector('.range>.pointer').style.left = 'calc('+pointer_position+'% - 41px)';
+                        document.querySelector('.advice').innerText = 'Vous avez un IMC normal.'
+                    }
+
+
+                    else if(imc >= 25 && imc < 30 ) {
+                        let pointer_position = ((imc * 10) / 28) + 60;
+                        document.querySelector('.range>.pointer').style.left = 'calc('+pointer_position+'% - 41px)';
+                        document.querySelector('.advice').innerText = 'Vous êtes en surpoids.'
+                    }
+
+                    else if(imc >= 30 && imc < 35 ) {
+                        document.querySelector('.range>.pointer').style.left = 'calc(80% - 41px)';
+                        document.querySelector('.advice').innerText = 'Vous êtes en état d\'obésité.';
+                    }
+
+                    else if(imc > 35 ) {
+                        document.querySelector('.range>.pointer').style.left = 'calc(100% - 41px)';
+                        document.querySelector('.advice').innerText = 'Vous êtes en état d\'obésité extrême.'
+                    }
+
+    
+
+
+                }
+
+                else {
+                    document.querySelector('.indication').innerText = 'Veuillez remplir le formulaire correctement.'
+                }
+            })
+        })
+    </script>
+    
+</body>
+</html>
